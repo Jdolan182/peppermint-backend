@@ -99,13 +99,19 @@ services:
         networks:
             - sail
     phpmyadmin:
-        image: 'phpmyadmin:latest'
+        image: phpmyadmin/phpmyadmin
+        links:
+            - mysql:mysql
         ports:
-            - 8080:81
+            - 8080:80
+        environment:
+            MYSQL_USERNAME: "${DB_USERNAME}"
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+            PMA_HOST: mysql
         networks:
             - sail
-        environment:
-            - PMA_ARBITRARY=1
+        depends_on:
+            - mysql
 networks:
     sail:
         driver: bridge
