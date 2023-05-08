@@ -21,7 +21,7 @@ class Authenticate
         if(!Auth::guard($guard)->attempt($request->only(['email', 'password']))){
             return response()->json([
                 'status' => false,
-                'message' => 'Email & Password does not match with our record.',
+                'message' => 'Email & Password does not match',
             ], 401);
         }
 
