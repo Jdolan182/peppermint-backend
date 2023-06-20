@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\Auth\Authenticate;
 use App\Http\Requests\Admin\AdminLoginRequest;
+use App\Http\Controllers\Controller;
  
 
 class AuthController extends Controller
@@ -13,11 +14,7 @@ class AuthController extends Controller
     //
     public function index()
     {
-
         
-        $json = array("Peter"=>35, "Ben"=>37, "Joe"=>43);
-
-        return json_encode($json);
     }
 
      /**

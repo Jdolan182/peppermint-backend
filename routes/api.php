@@ -4,8 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 //Controllers
-use App\Http\Controllers\TestController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\TestController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +20,14 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
+//Route::get('/user', [UserController::class, 'show']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/test', [TestController::class, 'index']);
+
+    Route::get('/user', [UserController::class, 'show']);
 });
 
-
-Route::get('/test', [TestController::class, 'index']);
+//Route::get('/test', [TestController::class, 'index']);
 Route::post('/test', [TestController::class, 'post']);
 
