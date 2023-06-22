@@ -34,4 +34,17 @@ class AuthController extends Controller
             ], 500);
         }
     }
+
+    public function logoutUser()
+    {
+        try {
+            return Authenticate::revokeAccess('admin');
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
 }

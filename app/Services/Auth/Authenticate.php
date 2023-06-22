@@ -33,9 +33,20 @@ class Authenticate
 
         return response()->json([
             'status' => true,
-            'message' => 'User Logged In Successfully',
+            'message' => 'User Logged in Successfully',
             'name' => $user->name,
             'token' => $user->createToken(self::TOKEN_NAME_API)->plainTextToken
         ], 200);
+    }
+
+    public static function revokeAccess($guard = 'admin')
+    {
+        if(auth()->guard($guard)->logout()){
+
+            return response()->json([
+                'status' => true,
+                'message' => 'User Logged out Successfully',
+            ], 200);
+        }
     }
 }
