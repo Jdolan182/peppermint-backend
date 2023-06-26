@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Services\Auth\Authenticate;
 use App\Http\Resources\User\UserResource;
-use App\Http\Requests\Admin\AdminLoginRequest;
 use App\Http\Controllers\Controller;
 
 

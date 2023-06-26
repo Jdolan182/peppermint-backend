@@ -20,5 +20,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Jordan Dolan',
             'email' => 'jordandolan.wow@gmail.com',
         ]);
+
+        \App\Models\Consumer::factory()->create([
+            'name' => 'Jordan Dolan',
+            'email' => 'jordandolan.wow@gmail.com',
+        ]);
     }
 }

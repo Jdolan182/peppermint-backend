@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ConsumerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,14 +21,25 @@ use App\Http\Controllers\Api\UserController;
 */
 
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
+Route::post('/consumer/login', [ConsumerController::class, 'loginUser']);
+
 //Route::get('/user', [UserController::class, 'show']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:admin')->group(function () {
     Route::get('/test', [TestController::class, 'index']);
 
     Route::get('/user', [UserController::class, 'show']);
 
     Route::post('/auth/logout', [AuthController::class, 'logoutUser']);
+
+});
+
+Route::middleware('auth:consumer')->group(function () {
+
+
+    //consumer
+    Route::get('/consumer', [ConsumerController::class, 'show']);
+    Route::post('/consumer/logout', [ConsumerController::class, 'logoutUser']);
 
 });
 
