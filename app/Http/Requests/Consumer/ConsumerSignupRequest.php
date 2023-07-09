@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ConsumerLoginRequest extends FormRequest
+class ConsumerSignupRequest extends FormRequest
 {
     /**
      * Prepare the data for validation.
@@ -27,24 +27,23 @@ class ConsumerLoginRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
             'email' => [
                 'required',
                 'email',
                 'max:255',
-                'exists:consumers,email'
+                'unique:consumers'
             ],
             'password' => [
                 'required',
                 'string',
-                'min:8',
-            ],
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'email.exists' => 'This email does not exist in our records',
+                'confirmed',
+                'min:8'
+            ]
         ];
     }
 }

@@ -20,25 +20,31 @@ use App\Http\Controllers\Api\ConsumerController;
 |
 */
 
+//Admin
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
-Route::post('/consumer/login', [ConsumerController::class, 'loginUser']);
 
 //Route::get('/user', [UserController::class, 'show']);
 
 Route::middleware('auth:admin')->group(function () {
     Route::get('/test', [TestController::class, 'index']);
 
-    Route::get('/user', [UserController::class, 'show']);
+    Route::get('/user/getUser', [UserController::class, 'show']);
 
     Route::post('/auth/logout', [AuthController::class, 'logoutUser']);
 
+    Route::get('/consumer', [ConsumerController::class, 'index']);
+
 });
+
+//Consumer
+Route::post('/consumer/login', [ConsumerController::class, 'loginUser']);
+Route::post('/consumer/signup', [ConsumerController::class, 'signupUser']);
 
 Route::middleware('auth:consumer')->group(function () {
 
 
     //consumer
-    Route::get('/consumer', [ConsumerController::class, 'show']);
+    Route::get('/consumer/getUser', [ConsumerController::class, 'show']);
     Route::post('/consumer/logout', [ConsumerController::class, 'logoutUser']);
 
 });

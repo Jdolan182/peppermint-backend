@@ -17,10 +17,10 @@ class AuthController extends Controller
         
     }
 
-     /**
+    /**
      * Login The User
      * @param AdminLoginRequest $request
-     * @return User
+     * @return Array
      */
     public function loginUser(AdminLoginRequest $request)
     {
@@ -35,6 +35,10 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Revoke token access for user
+     * @return Array
+     */
     public function logoutUser()
     {
         try {
