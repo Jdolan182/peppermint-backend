@@ -9,19 +9,33 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\Consumer\ConsumerResource;
 use App\Http\Requests\Consumer\ConsumerLoginRequest;
 use App\Http\Requests\Consumer\ConsumerSignupRequest;
+use App\Http\Requests\Search\IndexRequest;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ConsumerController extends Controller
 {
     /**
      * List consumers
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  IndexRequest $IndexRequest
      * @return App\Http\Resources\Consumer\ConsumerResource
      */
-     public function index(Request $request)
-     {
-        return ConsumerResource::collection(Consumer::paginate(1));
-     }
+    public function index(IndexRequest $request)
+    {
+        $search = $request->safe()->keyword ?? false;
+        $limit = $request->limit ?? 30;
+
+        $query = Consumer::query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%");
+            });
+        }
+
+        return ConsumerResource::collection($query->paginate($limit)->withQueryString());
+    }
 
     /**
      * Display the Consumer resource.
@@ -29,7 +43,7 @@ class ConsumerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return App\Http\Resources\Consumer\ConsumerResource
      */
-    public function show() 
+    public function show() :ConsumerResource
     {
         return new ConsumerResource(auth()->user());
     }
@@ -37,9 +51,9 @@ class ConsumerController extends Controller
     /**
      * Login The Consumer
      * @param ConsumerLoginRequest $request
-     * @return Array
+     * @return String
      */
-    public function loginUser(ConsumerLoginRequest $request)
+    public function loginUser(ConsumerLoginRequest $request): String 
     {
         try {
             return Authenticate::authLogin('consumer', $request);
@@ -55,9 +69,9 @@ class ConsumerController extends Controller
     /**
      * Sign up The Consumer
      * @param ConsumerSignupRequest $request
-     * @return Array
+     * @return String
      */
-    public function signupUser(ConsumerSignupRequest $request)
+    public function signupUser(ConsumerSignupRequest $request): String
     {
 
         try{
@@ -81,9 +95,9 @@ class ConsumerController extends Controller
 
     /**
      * Revoke token access for Consumer
-     * @return Array
+     * @return String
      */
-    public function logoutUser()
+    public function logoutUser(): String
     {
         try {
             return Authenticate::revokeAccess('consumer');
