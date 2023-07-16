@@ -33,6 +33,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logoutUser']);
 
     Route::get('/consumer', [ConsumerController::class, 'index']);
+    Route::get('/consumer/{consumer}', [ConsumerController::class, 'show']);
+    Route::patch('/consumer/edit/{consumer}', [ConsumerController::class, 'edit']);
+
 
 });
 
@@ -44,7 +47,8 @@ Route::middleware('auth:consumer')->group(function () {
 
 
     //consumer
-    Route::get('/consumer/getUser', [ConsumerController::class, 'show']);
+    Route::get('/consumer/auth', [ConsumerController::class, 'auth']);
+
     Route::post('/consumer/logout', [ConsumerController::class, 'logoutUser']);
 
 });

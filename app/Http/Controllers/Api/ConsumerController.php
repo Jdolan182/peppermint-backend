@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Models\Consumer;
 use Illuminate\Http\Request;
 use App\Services\Auth\Authenticate;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\Consumer\ConsumerResource;
 use App\Http\Requests\Consumer\ConsumerLoginRequest;
 use App\Http\Requests\Consumer\ConsumerSignupRequest;
+use App\Http\Requests\Consumer\ConsumerEditRequest;
 use App\Http\Requests\Search\IndexRequest;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -40,16 +42,52 @@ class ConsumerController extends Controller
     /**
      * Display the Consumer resource.
      *
+     * @param  Consumer $consumer
+     * @return App\Http\Resources\Consumer\ConsumerResource
+     */
+    public function show(Consumer $consumer) :ConsumerResource
+    {
+        return new ConsumerResource($consumer);
+    }
+
+    /**
+     * Display the logged in Consumer resource.
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return App\Http\Resources\Consumer\ConsumerResource
      */
-    public function show() :ConsumerResource
+    public function auth() :ConsumerResource
     {
         return new ConsumerResource(auth()->user());
+    }
+
+    /**
+     * Edit consumer.
+     *
+     * @param ConsumerEditRequest $request
+     * @return App\Http\Resources\Consumer\ConsumerResource
+     */
+    public function edit(ConsumerEditRequest $request, Consumer $consumer) :ConsumerResource
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $consumer->update($request->validated());
+
+            DB::commit();
+
+            return new ConsumerResource($consumer->refresh());
+        }
+        catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
  
     /**
      * Login The Consumer
+     * 
      * @param ConsumerLoginRequest $request
      * @return String
      */
@@ -68,6 +106,7 @@ class ConsumerController extends Controller
 
     /**
      * Sign up The Consumer
+     * 
      * @param ConsumerSignupRequest $request
      * @return String
      */
@@ -95,6 +134,7 @@ class ConsumerController extends Controller
 
     /**
      * Revoke token access for Consumer
+     * 
      * @return String
      */
     public function logoutUser(): String
