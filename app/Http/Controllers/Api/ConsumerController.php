@@ -62,9 +62,10 @@ class ConsumerController extends Controller
     }
 
     /**
-     * Edit consumer.
+     * Edit Consumer.
      *
      * @param ConsumerEditRequest $request
+     * @param Consumer $consumer
      * @return App\Http\Resources\Consumer\ConsumerResource
      */
     public function edit(ConsumerEditRequest $request, Consumer $consumer) :ConsumerResource

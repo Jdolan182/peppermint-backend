@@ -28,9 +28,13 @@ Route::post('/auth/login', [AuthController::class, 'loginUser']);
 Route::middleware('auth:admin')->group(function () {
     Route::get('/test', [TestController::class, 'index']);
 
-    Route::get('/user/getUser', [UserController::class, 'show']);
-
+    Route::get('/user/getUser', [UserController::class, 'auth']);
     Route::post('/auth/logout', [AuthController::class, 'logoutUser']);
+
+    Route::get('/user', [UserController::class, 'index']);
+    Route::get('/user/{user}', [UserController::class, 'show']);
+    Route::post('/user/create', [UserController::class, 'create']);
+    Route::patch('/user/edit/{user}', [UserController::class, 'edit']);
 
     Route::get('/consumer', [ConsumerController::class, 'index']);
     Route::get('/consumer/{consumer}', [ConsumerController::class, 'show']);
