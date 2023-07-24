@@ -81,10 +81,41 @@ class UserController extends Controller
                 'message' => 'User Created'
             ], 200);
         }
-        catch(Exception $e){
-            if($e){
-                
-            }
+        catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Delete User.
+     * 
+     * @param User $user
+     * @return String
+     */
+    public function delete(User $user)
+    {
+        DB::beginTransaction();
+
+        try{
+         
+            $user->delete();
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'User Deleted'
+            ], 200);
+        }
+        catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
         }
     }
 

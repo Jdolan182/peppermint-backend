@@ -12,6 +12,8 @@ class Consumer extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $guard = 'consumer';
+
     /**
      * The attributes that are mass assignable.
      *

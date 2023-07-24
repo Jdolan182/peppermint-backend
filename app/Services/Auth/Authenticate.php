@@ -47,12 +47,20 @@ class Authenticate
 
     public static function revokeAccess($guard = 'admin')
     {
-        if(auth()->guard($guard)->logout()){
 
+        try {
+            auth()->guard($guard)->user()->tokens()->where('name', self::TOKEN_NAME_API)->delete();
+
+        
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged out Successfully',
             ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
         }
     }
 }

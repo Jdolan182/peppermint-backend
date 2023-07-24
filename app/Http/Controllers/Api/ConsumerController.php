@@ -16,6 +16,10 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ConsumerController extends Controller
 {
+    public function test()
+    {
+        return outputJson('test');
+    }
     /**
      * List consumers
      *
@@ -58,7 +62,7 @@ class ConsumerController extends Controller
      */
     public function auth() :ConsumerResource
     {
-        return new ConsumerResource(auth()->user());
+        return new ConsumerResource(auth()->guard('consumer')->user());
     }
 
     /**
@@ -74,15 +78,21 @@ class ConsumerController extends Controller
 
         try {
 
-            $consumer->update($request->validated());
+            $consumer = Consumer::update([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'password' => Hash::make($request->input('password')),
+            ]);
 
             DB::commit();
 
             return new ConsumerResource($consumer->refresh());
-        }
-        catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
+        } catch (\Throwable $th) {
+            DB:rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
         }
     }
  
@@ -90,9 +100,8 @@ class ConsumerController extends Controller
      * Login The Consumer
      * 
      * @param ConsumerLoginRequest $request
-     * @return String
      */
-    public function loginUser(ConsumerLoginRequest $request): String 
+    public function loginUser(ConsumerLoginRequest $request) 
     {
         try {
             return Authenticate::authLogin('consumer', $request);
@@ -126,19 +135,49 @@ class ConsumerController extends Controller
                 'message' => 'User Created'
             ], 200);
         }
-        catch(Exception $e){
-            if($e){
-                
-            }
+        catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Delete Consumer.
+     * 
+     * @param Consumer $consumer
+     * @return String
+     */
+    public function delete(Consumer $consumer)
+    {
+        DB::beginTransaction();
+
+        try{
+         
+            $consumer->delete();
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Consumer Deleted'
+            ], 200);
+        }
+        catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
         }
     }
 
     /**
      * Revoke token access for Consumer
      * 
-     * @return String
      */
-    public function logoutUser(): String
+    public function logoutUser()
     {
         try {
             return Authenticate::revokeAccess('consumer');
