@@ -38,7 +38,7 @@ class ConsumerEditRequest extends FormRequest
                 'max:255',
             ],
             'password' => [
-                'required',
+                'nullable',
                 'string',
                 'confirmed',
                 'min:8'

@@ -80,12 +80,20 @@ class ConsumerController extends Controller
 
         try {
 
-            $consumer->update([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'password' => Hash::make($request->input('password')),
-            ]);
 
+            if($request->input('password')){
+                $consumer->update([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'password' => Hash::make($request->input('password')),
+                ]);
+            }
+            else {
+                $consumer->update([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                ]);
+            }
             DB::commit();
 
             return new ConsumerResource($consumer->refresh());

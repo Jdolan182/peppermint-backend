@@ -131,9 +131,20 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
-
-            $user->update($request->validated());
-
+                
+            if($request->input('password')){
+                $user->update([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'password' => Hash::make($request->input('password')),
+                ]);
+            }
+            else {
+                $user->update([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                ]);
+            }
             DB::commit();
 
             return new UserResource($user->refresh());
