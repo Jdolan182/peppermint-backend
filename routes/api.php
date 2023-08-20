@@ -61,7 +61,9 @@ Route::middleware('auth:consumer')->group(function () {
     //consumer
     Route::get('/consumer/getUser', [ConsumerController::class, 'auth']);
     Route::post('/consumer/logout', [ConsumerController::class, 'logoutUser']);
-
+    Route::patch('/consumer/updateDetails/{consumer}', [ConsumerController::class, 'updateDetails']);
+    Route::patch('/consumer/updatePassword/{consumer}', [ConsumerController::class, 'updatePassword']);
+    
 });
 
 //Route::get('/test', [TestController::class, 'index']);

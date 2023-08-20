@@ -11,6 +11,8 @@ use App\Http\Resources\Consumer\ConsumerResource;
 use App\Http\Requests\Consumer\ConsumerLoginRequest;
 use App\Http\Requests\Consumer\ConsumerSignupRequest;
 use App\Http\Requests\Consumer\ConsumerEditRequest;
+use App\Http\Requests\Consumer\ConsumerEditPasswordRequest;
+use App\Http\Requests\Consumer\ConsumerEditDetailsRequest;
 use App\Http\Requests\Search\IndexRequest;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -72,13 +74,13 @@ class ConsumerController extends Controller
      * @param Consumer $consumer
      * @return App\Http\Resources\Consumer\ConsumerResource
      */
-    public function edit(ConsumerEditRequest $request, Consumer $consumer) :ConsumerResource
+    public function edit(ConsumerEditRequest $request, Consumer $consumer)
     {
         DB::beginTransaction();
 
         try {
 
-            $consumer = Consumer::update([
+            $consumer->update([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
                 'password' => Hash::make($request->input('password')),
@@ -88,7 +90,67 @@ class ConsumerController extends Controller
 
             return new ConsumerResource($consumer->refresh());
         } catch (\Throwable $th) {
-            DB:rollback();
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Update Consumer Details.
+     *
+     * @param ConsumerEditDetailsRequest $request
+     * @param Consumer $consumer
+     * @return App\Http\Resources\Consumer\ConsumerResource
+     */
+    public function updateDetails(ConsumerEditDetailsRequest $request, Consumer $consumer) :ConsumerResource
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $consumer->update([
+                'name' => $request->input('name'),
+                'email' => $request->input('email')
+            ]);
+
+            DB::commit();
+
+            return new ConsumerResource($consumer->refresh());
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Update Consumer Password.
+     *
+     * @param ConsumerEditPasswordRequest $request
+     * @param Consumer $consumer
+     * @return App\Http\Resources\Consumer\ConsumerResource
+     */
+    public function updatePassword(ConsumerEditPasswordRequest $request, Consumer $consumer)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $consumer->update([
+                'password' => Hash::make($request->input('password')),
+            ]);
+
+
+            DB::commit();
+
+            return new ConsumerResource($consumer->refresh());
+        } catch (\Throwable $th) {
+            DB::rollback();
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
