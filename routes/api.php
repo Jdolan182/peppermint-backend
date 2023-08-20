@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ConsumerController;
+use App\Http\Controllers\Api\CoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/consumer/show/{consumer}', [ConsumerController::class, 'show']);
     Route::patch('/consumer/edit/{consumer}', [ConsumerController::class, 'edit']);
     Route::delete('/consumer/delete/{consumer}', [ConsumerController::class, 'delete']);
+
+    Route::get('/stats', [CoreController::class, 'stats']);
+
 
 
 });

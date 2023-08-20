@@ -41,6 +41,7 @@ class Authenticate
             'status' => true,
             'message' => 'User Logged in Successfully',
             'name' => $user->name,
+            'id' => $user->id,
             'token' => $user->createToken(self::TOKEN_NAME_API)->plainTextToken
         ], 200);
     }
