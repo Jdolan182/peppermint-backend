@@ -65,7 +65,3 @@ Route::middleware('auth:consumer')->group(function () {
     Route::patch('/consumer/updatePassword/{consumer}', [ConsumerController::class, 'updatePassword']);
     
 });
-
-//Route::get('/test', [TestController::class, 'index']);
-Route::get('/test', [TestController::class, 'post']);
-

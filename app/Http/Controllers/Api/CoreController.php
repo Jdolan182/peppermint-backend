@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Models\Consumer;
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -12,9 +13,9 @@ class CoreController extends Controller
      /**
      * Return stats for dashboard
      *
-     * @return String
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function stats()
+    public function stats() :JsonResponse
     {
 
         $data = [

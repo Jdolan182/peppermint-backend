@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Consumer;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Services\Auth\Authenticate;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -28,7 +29,7 @@ class ConsumerController extends Controller
      * @param  IndexRequest $IndexRequest
      * @return App\Http\Resources\Consumer\ConsumerResource
      */
-    public function index(IndexRequest $request)
+    public function index(IndexRequest $request) :AnonymousResourceCollection
     {
         $search = $request->safe()->keyword ?? false;
         $limit = $request->limit ?? 30;
@@ -74,7 +75,7 @@ class ConsumerController extends Controller
      * @param Consumer $consumer
      * @return App\Http\Resources\Consumer\ConsumerResource
      */
-    public function edit(ConsumerEditRequest $request, Consumer $consumer)
+    public function edit(ConsumerEditRequest $request, Consumer $consumer) :ConsumerResource
     {
         DB::beginTransaction();
 
@@ -143,7 +144,7 @@ class ConsumerController extends Controller
      * @param Consumer $consumer
      * @return App\Http\Resources\Consumer\ConsumerResource
      */
-    public function updatePassword(ConsumerEditPasswordRequest $request, Consumer $consumer)
+    public function updatePassword(ConsumerEditPasswordRequest $request, Consumer $consumer) :ConsumerResource
     {
         DB::beginTransaction();
 
@@ -170,8 +171,9 @@ class ConsumerController extends Controller
      * Login The Consumer
      * 
      * @param ConsumerLoginRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function loginUser(ConsumerLoginRequest $request) 
+    public function loginUser(ConsumerLoginRequest $request) :JsonResponse
     {
         try {
             return Authenticate::authLogin('consumer', $request);
@@ -188,9 +190,9 @@ class ConsumerController extends Controller
      * Sign up The Consumer
      * 
      * @param ConsumerSignupRequest $request
-     * @return String
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function signupUser(ConsumerSignupRequest $request): String
+    public function signupUser(ConsumerSignupRequest $request) :JsonResponse
     {
 
         try{
@@ -203,7 +205,7 @@ class ConsumerController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Created'
-            ], 200);
+            ], 201);
         }
         catch (\Throwable $th) {
             return response()->json([
@@ -217,9 +219,9 @@ class ConsumerController extends Controller
      * Delete Consumer.
      * 
      * @param Consumer $consumer
-     * @return String
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function delete(Consumer $consumer)
+    public function delete(Consumer $consumer) :JsonResponse
     {
         DB::beginTransaction();
 
@@ -245,9 +247,9 @@ class ConsumerController extends Controller
 
     /**
      * Revoke token access for Consumer
-     * 
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function logoutUser()
+    public function logoutUser() :JsonResponse
     {
         try {
             return Authenticate::revokeAccess('consumer');

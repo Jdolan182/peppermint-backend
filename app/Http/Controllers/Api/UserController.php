@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\User\UserResource;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\User\UserCreateRequest;
-use App\Http\Requests\User\UserEditRequest;
 use App\Http\Requests\Search\IndexRequest;
-
+use App\Http\Requests\User\UserEditRequest;
+use App\Http\Requests\User\UserCreateRequest;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UserController extends Controller
 {
@@ -21,7 +22,7 @@ class UserController extends Controller
      * @param  IndexRequest $IndexRequest
      * @return App\Http\Resources\User\UserResource
      */
-    public function index(IndexRequest $request)
+    public function index(IndexRequest $request) :AnonymousResourceCollection
     {
         $search = $request->safe()->keyword ?? false;
         $limit = $request->limit ?? 30;
@@ -64,9 +65,9 @@ class UserController extends Controller
      * Create user
      * 
      * @param UserCreateRequest $request
-     * @return String
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create(UserCreateRequest $request): String
+    public function create(UserCreateRequest $request) :JsonResponse
     {
 
         try{
@@ -78,8 +79,9 @@ class UserController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'User Created'
-            ], 200);
+                'message' => 'User Created',
+                'user' => new UserResource($user)
+            ], 201);
         }
         catch (\Throwable $th) {
             return response()->json([
@@ -93,9 +95,9 @@ class UserController extends Controller
      * Delete User.
      * 
      * @param User $user
-     * @return String
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function delete(User $user)
+    public function delete(User $user) :JsonResponse
     {
         DB::beginTransaction();
 

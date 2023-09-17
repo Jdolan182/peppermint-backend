@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Services\Auth\Authenticate;
 use App\Http\Requests\Admin\AdminLoginRequest;
 use App\Http\Controllers\Controller;
@@ -20,9 +21,9 @@ class AuthController extends Controller
     /**
      * Login The User
      * @param AdminLoginRequest $request
-     * @return Array
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function loginUser(AdminLoginRequest $request)
+    public function loginUser(AdminLoginRequest $request) :JsonResponse
     {
         try {
             return Authenticate::authLogin('admin', $request);
@@ -37,9 +38,9 @@ class AuthController extends Controller
 
     /**
      * Revoke token access for user
-     * @return Array
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function logoutUser()
+    public function logoutUser() :JsonResponse
     {
         try {
             return Authenticate::revokeAccess('admin');
