@@ -23,7 +23,7 @@ class AuthTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->json('api/auth/login', [
+        $response = $this->actingAs($user)->postJson('api/auth/login', [
             'email' => $user->email,
             'password' => 'password'
         ]);
@@ -48,7 +48,7 @@ class AuthTest extends TestCase
     {
         $consumer = Consumer::factory()->create();
 
-        $response = $this->actingAs($consumer, 'consumer')->json('api/consumer/login', [
+        $response = $this->actingAs($consumer, 'consumer')->postJson('api/consumer/login', [
             'email' => $consumer->email,
             'password' => 'password'
         ]); 
