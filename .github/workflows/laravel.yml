@@ -34,4 +34,4 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: sail artisan test
+      run: vendor/bin/phpunit
