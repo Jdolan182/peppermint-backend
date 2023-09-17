@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\User;
+namespace Tests\Feature\Api\Auth;
 
 use App\Models\User;
 use App\Models\Consumer;

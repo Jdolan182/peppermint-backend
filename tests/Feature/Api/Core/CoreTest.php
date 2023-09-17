@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\User;
+namespace Tests\Feature\Api\Core;
 
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
