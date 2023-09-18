@@ -22,7 +22,7 @@ class AuthTest extends TestCase
     public function test_admin_auth_()
     {
         $user = User::factory()->create();
-        $this->withoutExceptionHandling();
+
         $response = $this->actingAs($user)->postJson('api/auth/login', [
             'email' => $user->email,
             'password' => 'password'
@@ -47,7 +47,7 @@ class AuthTest extends TestCase
     public function test_consumer_auth_()
     {
         $consumer = Consumer::factory()->create();
-        $this->withoutExceptionHandling();
+
         $response = $this->actingAs($consumer, 'consumer')->postJson('api/consumer/login', [
             'email' => $consumer->email,
             'password' => 'password'

@@ -23,7 +23,7 @@ class CreateConsumerTest extends TestCase
     {
         $user = User::factory()->create();
         $count = Consumer::count();
-        $this->withoutExceptionHandling();
+
         $response = $this->actingAs($user)->postJson('api/consumer/signup', [
             'name' => 'User Name',
             'email' => 'user@email.com',
