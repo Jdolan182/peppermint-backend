@@ -2,9 +2,6 @@
 
 namespace App\Http\Requests\Consumer;
 
-use App\Models\Industry;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ConsumerSignupRequest extends FormRequest

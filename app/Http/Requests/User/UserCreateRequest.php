@@ -2,9 +2,6 @@
 
 namespace App\Http\Requests\User;
 
-use App\Models\Industry;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserCreateRequest extends FormRequest
