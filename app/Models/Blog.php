@@ -38,7 +38,6 @@ class Blog extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'date_live' => 'datetime',
-        'date_created' => 'datetime',
+        'live_date' => 'datetime',
     ];
 }

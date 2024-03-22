@@ -31,13 +31,13 @@ class BlogEditRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:blog'
+                'unique:blogs'
             ],
             'title' => [
                 'required',
                 'string',
                 'max:255',
-                'unique:blog'
+                'unique:blogs'
             ],
             'subtitle' => [
                 'nullable',

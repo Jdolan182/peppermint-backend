@@ -21,7 +21,7 @@ return new class extends Migration
             $table->longText('content')->nullable();
             $table->boolean('is_active');
             $table->timestamp('live_date')->nullable();
-            $table->timestamp('date_created')->useCurrent();
+            $table->timestamps();
         });
     }
 

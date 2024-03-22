@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\Consumer;
 use App\Models\User;
+use App\Models\Blog;
 use App\Http\Controllers\Controller;
 
 class CoreController extends Controller
@@ -20,7 +21,8 @@ class CoreController extends Controller
 
         $data = [
             'consumers' => Consumer::all()->count(),
-            'users' => User::all()->count() 
+            'users' => User::all()->count(),
+            'blogs' => Blog::all()->count() 
         ];
 
         return response()->json([
