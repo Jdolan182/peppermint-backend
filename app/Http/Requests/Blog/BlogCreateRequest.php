@@ -31,7 +31,7 @@ class BlogCreateRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:blogs'
+                'unique:blogs:id_to_ignore'
             ],
             'title' => [
                 'required',

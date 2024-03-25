@@ -48,6 +48,7 @@ Route::middleware('auth:admin')->group(function () {
     //blog
     Route::get('/blog', [BlogController::class, 'index']);
     Route::post('/blog/create', [BlogController::class, 'create']);
+    Route::get('/blog/show/{blog}', [BlogController::class, 'show']);
     Route::patch('/blog/edit/{blog}', [BlogController::class, 'edit']);
     Route::delete('/blog/delete/{blog}', [BlogController::class, 'delete']);
 

@@ -22,7 +22,7 @@ class BlogResource extends JsonResource
             'content' => $this->content,
             'is_active' => $this->is_active,
             'live_date' => $this->live_date,
-            'date_created' => $this->date_created,
+            'created_at' => $this->created_at,
         ];
     }
 }

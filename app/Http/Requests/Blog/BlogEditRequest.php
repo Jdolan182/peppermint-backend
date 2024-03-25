@@ -31,13 +31,13 @@ class BlogEditRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:blogs'
+                'unique:blogs,id,'.$this->id
             ],
             'title' => [
                 'required',
                 'string',
                 'max:255',
-                'unique:blogs'
+                'unique:blogs,id,'.$this->id
             ],
             'subtitle' => [
                 'nullable',
