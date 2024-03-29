@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources\Blog;
 
-use App\Http\Resources\Blog\BlogCategoryResource;
-use App\Http\Resources\User\UserResource;
+use App\Http\Resources\Blog\BlogCategoryFrontendResource;
+use App\Http\Resources\User\UserFrontendResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BlogResource extends JsonResource
+class BlogFrontendResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,11 +22,9 @@ class BlogResource extends JsonResource
             'title' => $this->title,
             'subtitle' => $this->subtitle,
             'description' => $this->description,
-            'content' =>  $this->content,
-            'category' => new BlogCategoryResource($this->category),
-            'category_id' => $this->category_id,
-            'author' =>  new UserResource($this->author),
-            'is_active' => $this->is_active,
+            'content' => $this->content,
+            'category' => new BlogCategoryFrontendResource($this->category),
+            'author' =>  new UserFrontendResource($this->author),
             'live_date' => $this->live_date,
             'created_at' => $this->created_at,
         ];

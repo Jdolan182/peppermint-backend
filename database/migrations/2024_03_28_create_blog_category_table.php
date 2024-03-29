@@ -13,15 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('blogs', function (Blueprint $table) {
+        Schema::create('blog_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('slug')->unique();
-            $table->string('title')->unique();
-            $table->string('subtitle')->nullable();
-            $table->longText('description')->nullable();
-            $table->longText('content')->nullable();
-            $table->boolean('is_active');
-            $table->timestamp('live_date')->nullable();
+            $table->string('category')->unique();
             $table->timestamps();
         });
     }

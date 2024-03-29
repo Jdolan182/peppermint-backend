@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Blog;
+use App\Models\BlogCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\Blog\BlogResource;
+use App\Http\Resources\Blog\BlogCategoryResource;
+use App\Http\Resources\Blog\BlogFrontendResource;
 use App\Http\Requests\Search\IndexRequest;
 use App\Http\Requests\Blog\BlogCreateRequest;
 use App\Http\Requests\Blog\BlogEditRequest;
@@ -18,6 +20,7 @@ class BlogController extends Controller
     {
         return outputJson('test');
     }
+
     /**
      * List blogs
      *
@@ -42,6 +45,33 @@ class BlogController extends Controller
         return BlogResource::collection($query->paginate($limit)->withQueryString());
     }
 
+     /**
+     * List blogs for frontend
+     *
+     * @param  IndexRequest $IndexRequest
+     * @return App\Http\Resources\Blog\BlogFrontendResource
+     */
+    public function blogList(IndexRequest $request) :AnonymousResourceCollection
+    {
+        $search = $request->safe()->keyword ?? false;
+        $limit = $request->limit ?? 30;
+
+        $query = Blog::query();
+
+        $query->where('is_active', '=', 1);
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'LIKE', "%{$search}%")
+                    ->orWhere('slug', 'LIKE', "%{$search}%")
+                    ->orWhere('subtitle', 'LIKE', "%{$search}%");
+            });
+        }
+
+        return BlogFrontendResource::collection($query->paginate($limit)->withQueryString());
+    }
+
+
     /**
      * Display the Blog resource.
      *
@@ -63,14 +93,9 @@ class BlogController extends Controller
     {
 
         try{
-            $blog = Blog::create([
-                'slug' => $request->input('slug'),
-                'title' => $request->input('title'),
-                'subtitle' => $request->input('subtitle'),
-                'content' => $request->input('content'),
-                'is_active' => $request->input('is_active'),
-                'live_date' => $request->input('live_date'),
-            ]);
+            $blog = Blog::create(
+                $request->all()
+            );
 
             return response()->json([
                 'status' => true,
@@ -99,13 +124,9 @@ class BlogController extends Controller
 
         try {
 
+            
             $blog->update([
-                'slug' => $request->input('slug'),
-                'title' => $request->input('title'),
-                'subtitle' => $request->input('subtitle'),
-                'content' => $request->input('content'),
-                'is_active' => $request->input('is_active'),
-                'live_date' => $request->input('live_date'),
+                $request->all()
             ]);
 
             DB::commit();
@@ -148,5 +169,10 @@ class BlogController extends Controller
                 'message' => $th->getMessage()
             ], 500);
         }
+    }
+
+    public function categories() :AnonymousResourceCollection
+    {
+        return BlogCategoryResource::collection(BlogCategory::all());
     }
 }

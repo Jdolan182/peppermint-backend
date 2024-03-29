@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Blog extends Authenticatable
 {
@@ -28,7 +29,10 @@ class Blog extends Authenticatable
         'title',
         'subtitle',
         'content',
-        'is_active',
+        'description',
+        'category_id',
+        'author_id',
+        'is_active = 0',
         'date_live'
     ];
 
@@ -40,4 +44,22 @@ class Blog extends Authenticatable
     protected $casts = [
         'live_date' => 'datetime',
     ];
+
+     /**
+      * 
+     * Get the blog category.
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(BlogCategory::class);
+    }
+
+    /**
+     * 
+     * Get the blog author.
+     */
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

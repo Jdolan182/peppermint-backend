@@ -31,25 +31,37 @@ class BlogCreateRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:blogs:id_to_ignore'
+                'unique:blogs,id,'.$this->id
             ],
             'title' => [
                 'required',
                 'string',
                 'max:255',
-                'unique:blogs'
+                'unique:blogs,id,'.$this->id
             ],
             'subtitle' => [
                 'nullable',
                 'string',
                 'max:255',
             ],
+            'description' => [
+                'nullable',
+                'string',
+            ],
             'content' => [
                 'nullable',
                 'string',
             ],
-            'is_active' =>[ 
+            'category_id' => [
                 'required',
+                'numeric',
+            ],
+            'author_id' => [
+                'required',
+                'numeric',
+            ],
+            'is_active' =>[ 
+                'nullable',
             ],
             'live_date' =>[ 
                 'nullable',

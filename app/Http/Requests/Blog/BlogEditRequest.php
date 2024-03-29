@@ -44,12 +44,20 @@ class BlogEditRequest extends FormRequest
                 'string',
                 'max:255',
             ],
+            'description' => [
+                'nullable',
+                'string',
+            ],
             'content' => [
                 'nullable',
                 'string',
             ],
-            'is_active' =>[ 
+            'category_id' => [
                 'required',
+                'string',
+            ],
+            'is_active' =>[ 
+                'nullable',
             ],
             'live_date' =>[ 
                 'nullable',

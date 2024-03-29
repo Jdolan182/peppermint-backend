@@ -47,6 +47,7 @@ Route::middleware('auth:admin')->group(function () {
 
     //blog
     Route::get('/blog', [BlogController::class, 'index']);
+    Route::get('/blogCategories', [BlogController::class, 'categories']);
     Route::post('/blog/create', [BlogController::class, 'create']);
     Route::get('/blog/show/{blog}', [BlogController::class, 'show']);
     Route::patch('/blog/edit/{blog}', [BlogController::class, 'edit']);
@@ -60,6 +61,11 @@ Route::middleware('auth:admin')->group(function () {
 });
 
 //Consumer
+
+//blog
+Route::get('/blogs', [BlogController::class, 'blogList']);
+Route::get('/blogs/{blog}', [BlogController::class, 'show']);
+
 Route::middleware('consumer-login')->group(function () {
     Route::post('/consumer/login', [ConsumerController::class, 'loginUser']);
     Route::post('/consumer/signup', [ConsumerController::class, 'signupUser']);
@@ -72,10 +78,6 @@ Route::middleware('auth:consumer')->group(function () {
     Route::post('/consumer/logout', [ConsumerController::class, 'logoutUser']);
     Route::patch('/consumer/updateDetails/{consumer}', [ConsumerController::class, 'updateDetails']);
     Route::patch('/consumer/updatePassword/{consumer}', [ConsumerController::class, 'updatePassword']);
-
-    //blog
-    Route::get('/blogs', [BlogController::class, 'index']);
-    Route::get('/blogs/{blog}', [BlogController::class, 'show']);
 
     
 });
