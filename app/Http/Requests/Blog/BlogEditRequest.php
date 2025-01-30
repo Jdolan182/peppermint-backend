@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Blog;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -14,8 +15,10 @@ class BlogEditRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
+
         $this->merge([
             'slug' => Str::slug($this->slug),
+            'is_active' => $this->is_active ? 1 : 0
         ]);
     }
 
@@ -54,10 +57,11 @@ class BlogEditRequest extends FormRequest
             ],
             'category_id' => [
                 'required',
-                'string',
+                'numeric',
             ],
             'is_active' =>[ 
                 'nullable',
+                'numeric',
             ],
             'live_date' =>[ 
                 'nullable',

@@ -31,9 +31,9 @@ class Blog extends Authenticatable
         'content',
         'description',
         'category_id',
+        'is_active',
+        'live_date',
         'author_id',
-        'is_active = 0',
-        'date_live'
     ];
 
     /**

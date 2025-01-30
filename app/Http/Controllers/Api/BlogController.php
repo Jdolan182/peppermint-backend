@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Blog;
 use App\Models\BlogCategory;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\Blog\BlogResource;
+use App\Http\Requests\Search\IndexRequest;
+use App\Http\Requests\Blog\BlogEditRequest;
+use App\Http\Requests\Blog\BlogCreateRequest;
 use App\Http\Resources\Blog\BlogCategoryResource;
 use App\Http\Resources\Blog\BlogFrontendResource;
-use App\Http\Requests\Search\IndexRequest;
-use App\Http\Requests\Blog\BlogCreateRequest;
-use App\Http\Requests\Blog\BlogEditRequest;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class BlogController extends Controller
@@ -59,6 +60,7 @@ class BlogController extends Controller
         $query = Blog::query();
 
         $query->where('is_active', '=', 1);
+        $query->where('live_date', '<', Carbon::now());
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -118,16 +120,15 @@ class BlogController extends Controller
      * @param Blog $blog
      * @return App\Http\Resources\Blog\BlogResource
      */
-    public function edit(BlogEditRequest $request, Blog $blog) :BlogResource
+    public function edit(BlogEditRequest $request, Blog $blog) 
     {
         DB::beginTransaction();
 
         try {
 
-            
-            $blog->update([
+            $blog->update(
                 $request->all()
-            ]);
+            );
 
             DB::commit();
 

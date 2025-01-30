@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Blog;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,8 +17,10 @@ class BlogCreateRequest extends FormRequest
     {
         $this->merge([
             'slug' => Str::slug($this->slug),
+            'is_active' => $this->is_active ? 1 : 0
         ]);
     }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -62,6 +65,7 @@ class BlogCreateRequest extends FormRequest
             ],
             'is_active' =>[ 
                 'nullable',
+                'numeric',
             ],
             'live_date' =>[ 
                 'nullable',
