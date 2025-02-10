@@ -4,12 +4,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 //Controllers
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\ConsumerController;
 use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\Api\CoreController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\ConsumerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,18 +42,23 @@ Route::middleware('auth:admin')->group(function () {
     Route::delete('/user/delete/{user}', [UserController::class, 'delete']);
     
     //consumer
-    Route::get('/consumer', [ConsumerController::class, 'index']);
-    Route::get('/consumer/show/{consumer}', [ConsumerController::class, 'show']);
-    Route::patch('/consumer/edit/{consumer}', [ConsumerController::class, 'edit']);
-    Route::delete('/consumer/delete/{consumer}', [ConsumerController::class, 'delete']);
+    if ( env('MODULE_CONSUMER_ENABLED')) {
+
+        Route::get('/consumer', [ConsumerController::class, 'index']);
+        Route::get('/consumer/show/{consumer}', [ConsumerController::class, 'show']);
+        Route::patch('/consumer/edit/{consumer}', [ConsumerController::class, 'edit']);
+        Route::delete('/consumer/delete/{consumer}', [ConsumerController::class, 'delete']);
+    }
 
     //blog
-    Route::get('/blog', [BlogController::class, 'index']);
-    Route::get('/blogCategories', [BlogController::class, 'categories']);
-    Route::post('/blog/create', [BlogController::class, 'create']);
-    Route::get('/blog/show/{blog}', [BlogController::class, 'show']);
-    Route::patch('/blog/edit/{blog}', [BlogController::class, 'edit']);
-    Route::delete('/blog/delete/{blog}', [BlogController::class, 'delete']);
+    if ( env('MODULE_BLOG_ENABLED')) {
+        Route::get('/blog', [BlogController::class, 'index']);
+        Route::get('/blogCategories', [BlogController::class, 'categories']);
+        Route::post('/blog/create', [BlogController::class, 'create']);
+        Route::get('/blog/show/{blog}', [BlogController::class, 'show']);
+        Route::patch('/blog/edit/{blog}', [BlogController::class, 'edit']);
+        Route::delete('/blog/delete/{blog}', [BlogController::class, 'delete']);
+    }
 
     //stats
     Route::get('/stats', [CoreController::class, 'stats']);
@@ -64,24 +70,30 @@ Route::middleware('auth:admin')->group(function () {
 
 });
 
-//Consumer
+
+//Route::get('/test/test', [TestController::class, 'index']);
 
 //blog
-Route::get('/blogs', [BlogController::class, 'blogList']);
-Route::get('/blogs/{blog}', [BlogController::class, 'show']);
+if ( env('MODULE_BLOG_ENABLED')) {
+    Route::get('/blogs', [BlogController::class, 'blogList']);
+    Route::get('/blogs/{blog}', [BlogController::class, 'show']);
+}
 
-Route::middleware('consumer-login')->group(function () {
-    Route::post('/consumer/login', [ConsumerController::class, 'loginUser']);
-    Route::post('/consumer/signup', [ConsumerController::class, 'signupUser']);
-});
+//Consumer
+if ( env('MODULE_CONSUMER_ENABLED')) {
 
-Route::middleware('auth:consumer')->group(function () {
+    Route::middleware('consumer-login')->group(function () {
+        Route::post('/consumer/login', [ConsumerController::class, 'loginUser']);
+        Route::post('/consumer/signup', [ConsumerController::class, 'signupUser']);
+    });
 
-    //consumer
-    Route::get('/consumer/getUser', [ConsumerController::class, 'auth']);
-    Route::post('/consumer/logout', [ConsumerController::class, 'logoutUser']);
-    Route::patch('/consumer/updateDetails/{consumer}', [ConsumerController::class, 'updateDetails']);
-    Route::patch('/consumer/updatePassword/{consumer}', [ConsumerController::class, 'updatePassword']);
+    Route::middleware('auth:consumer')->group(function () {
 
-    
-});
+        //consumer
+        Route::get('/consumer/getUser', [ConsumerController::class, 'auth']);
+        Route::post('/consumer/logout', [ConsumerController::class, 'logoutUser']);
+        Route::patch('/consumer/updateDetails/{consumer}', [ConsumerController::class, 'updateDetails']);
+        Route::patch('/consumer/updatePassword/{consumer}', [ConsumerController::class, 'updatePassword']);
+
+    });
+}

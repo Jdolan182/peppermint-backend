@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use App\Models\Blog;
 use App\Models\BlogCategory;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\Blog\BlogResource;
@@ -13,6 +13,7 @@ use App\Http\Requests\Blog\BlogEditRequest;
 use App\Http\Requests\Blog\BlogCreateRequest;
 use App\Http\Resources\Blog\BlogCategoryResource;
 use App\Http\Resources\Blog\BlogFrontendResource;
+use App\Http\Requests\Search\IndexRequestFrontend;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class BlogController extends Controller
@@ -49,10 +50,10 @@ class BlogController extends Controller
      /**
      * List blogs for frontend
      *
-     * @param  IndexRequest $IndexRequest
+     * @param  IndexRequestFrontend $IndexRequestFrontend
      * @return App\Http\Resources\Blog\BlogFrontendResource
      */
-    public function blogList(IndexRequest $request) :AnonymousResourceCollection
+    public function blogList(IndexRequestFrontend $request) :AnonymousResourceCollection
     {
         $search = $request->safe()->keyword ?? false;
         $limit = $request->limit ?? 30;
@@ -72,7 +73,6 @@ class BlogController extends Controller
 
         return BlogFrontendResource::collection($query->paginate($limit)->withQueryString());
     }
-
 
     /**
      * Display the Blog resource.
