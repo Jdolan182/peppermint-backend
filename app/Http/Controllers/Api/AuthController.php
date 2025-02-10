@@ -32,7 +32,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 400);
         }
     }
 
@@ -49,7 +49,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 400);
         }
     }
 }

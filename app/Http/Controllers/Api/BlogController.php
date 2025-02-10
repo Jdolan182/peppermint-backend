@@ -103,13 +103,13 @@ class BlogController extends Controller
                 'status' => true,
                 'message' => 'Blog Created',
                 'user' => new BlogResource($blog)
-            ], 201);
+            ], 200);
         }
         catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 400);
         }
     }
 
@@ -138,7 +138,7 @@ class BlogController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 400);
         }
     }
 
@@ -168,7 +168,7 @@ class BlogController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 400);
         }
     }
 

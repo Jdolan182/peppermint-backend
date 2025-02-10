@@ -21,6 +21,7 @@ class BlogFrontendResource extends JsonResource
             'slug' => $this->slug,
             'title' => $this->title,
             'subtitle' => $this->subtitle,
+            'image_filename' => $this->image_filename,
             'description' => $this->description,
             'content' => $this->content,
             'category' => new BlogCategoryFrontendResource($this->category),

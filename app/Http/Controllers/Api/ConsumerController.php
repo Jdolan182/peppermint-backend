@@ -19,10 +19,6 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ConsumerController extends Controller
 {
-    public function test()
-    {
-        return outputJson('test');
-    }
     /**
      * List consumers
      *
@@ -103,7 +99,7 @@ class ConsumerController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 400);
         }
     }
 
@@ -133,7 +129,7 @@ class ConsumerController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 400);
         }
     }
 
@@ -163,7 +159,7 @@ class ConsumerController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 400);
         }
     }
  
@@ -182,7 +178,7 @@ class ConsumerController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 400);
         }
     }
 
@@ -205,13 +201,13 @@ class ConsumerController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Created'
-            ], 201);
+            ], 200);
         }
         catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 400);
         }
     }
 
@@ -241,7 +237,7 @@ class ConsumerController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 400);
         }
     }
 
@@ -258,7 +254,7 @@ class ConsumerController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 400);
         }
     }
 }

@@ -28,6 +28,7 @@ class Blog extends Authenticatable
         'slug',
         'title',
         'subtitle',
+        'image_filename',
         'content',
         'description',
         'category_id',

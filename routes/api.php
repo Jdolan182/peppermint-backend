@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ConsumerController;
 use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\Api\CoreController;
+use App\Http\Controllers\Api\ImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,9 @@ Route::middleware('auth:admin')->group(function () {
 
     //stats
     Route::get('/stats', [CoreController::class, 'stats']);
+
+    //images
+    Route::post('/image/upload', [ImageController::class, 'upload']);
 
 
 

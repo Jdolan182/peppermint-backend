@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('title')->unique();
             $table->string('subtitle')->nullable();
+            $table->string('image_filename')->nullable();
             $table->longText('description')->nullable();
             $table->longText('content')->nullable();
             $table->boolean('is_active');

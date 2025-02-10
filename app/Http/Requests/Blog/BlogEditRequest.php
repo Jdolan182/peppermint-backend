@@ -47,6 +47,11 @@ class BlogEditRequest extends FormRequest
                 'string',
                 'max:255',
             ],
+            'image_filename' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
             'description' => [
                 'nullable',
                 'string',
