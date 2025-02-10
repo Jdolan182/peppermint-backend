@@ -31,7 +31,7 @@ class CreateConsumerTest extends TestCase
             'password_confirmation' => 'password'
         ]);
 
-        $response->assertCreated();
+        $response->assertOk();
         $this->assertGreaterThan($count, Consumer::count(), 'Record has been created');
     }
 }
