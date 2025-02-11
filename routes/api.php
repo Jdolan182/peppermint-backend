@@ -24,9 +24,9 @@ use App\Http\Controllers\Api\ConsumerController;
 */
 
 //Admin
-Route::middleware('admin-login')->group(function () {
+//Route::middleware('admin-login')->group(function () {
     Route::post('/auth/login', [AuthController::class, 'loginUser']);
-});
+//});
 
 Route::middleware('auth:admin')->group(function () {
 
