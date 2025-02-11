@@ -4,14 +4,11 @@ use Illuminate\Support\Facades\Route;
 
 //Controllers
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\CoreController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\ImageController;
-use App\Http\Controllers\Api\ConsumerController;
+
 
 //middleware
 use App\Http\Middleware\CanAdminLogin;
-use App\Http\Middleware\CanFrontendLogin;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,41 +37,4 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('/user/create', [UserController::class, 'create']);
     Route::patch('/user/edit/{user}', [UserController::class, 'edit']);
     Route::delete('/user/delete/{user}', [UserController::class, 'delete']);
-    
-    //consumer
-    if ( env('MODULE_CONSUMER_ENABLED')) {
-
-        Route::get('/consumer', [ConsumerController::class, 'index']);
-        Route::get('/consumer/show/{consumer}', [ConsumerController::class, 'show']);
-        Route::patch('/consumer/edit/{consumer}', [ConsumerController::class, 'edit']);
-        Route::delete('/consumer/delete/{consumer}', [ConsumerController::class, 'delete']);
-    }
-
-    //stats
-    Route::get('/stats', [CoreController::class, 'stats']);
-
-    //images
-    Route::post('/image/upload', [ImageController::class, 'upload']);
-
-
-
 });
-
-
-//Route::get('/test/test', [TestController::class, 'index']);
-
-//Consumer
-if ( env('MODULE_CONSUMER_ENABLED')) {
-
-    Route::post('/consumer/login', [ConsumerController::class, 'loginUser'])->middleware(CanFrontendLogin::class);;;
-    Route::post('/consumer/signup', [ConsumerController::class, 'signupUser'])->middleware(CanFrontendLogin::class);;;
-
-    Route::middleware('auth:consumer')->group(function () {
-        //consumer
-        Route::get('/consumer/getUser', [ConsumerController::class, 'auth']);
-        Route::post('/consumer/logout', [ConsumerController::class, 'logoutUser']);
-        Route::patch('/consumer/updateDetails/{consumer}', [ConsumerController::class, 'updateDetails']);
-        Route::patch('/consumer/updatePassword/{consumer}', [ConsumerController::class, 'updatePassword']);
-
-    });
-}

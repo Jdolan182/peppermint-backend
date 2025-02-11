@@ -4,7 +4,6 @@ namespace App\Services\Auth;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Consumer;
 
 /**
  * Authenticate service to deal with logins from admins or users
@@ -30,9 +29,6 @@ class Authenticate
 
         if($guard == 'admin'){
             $user = User::where('email', $request->email)->first();
-        }
-        else if ($guard == 'consumer'){
-            $user = Consumer::where('email', $request->email)->first();
         }
 
         $user->tokens()->where('name', self::TOKEN_NAME_API)->delete();
