@@ -3,12 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 //Controllers
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\UserController;
-
-
-//middleware
 use App\Http\Middleware\CanAdminLogin;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CoreController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +35,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('/user/create', [UserController::class, 'create']);
     Route::patch('/user/edit/{user}', [UserController::class, 'edit']);
     Route::delete('/user/delete/{user}', [UserController::class, 'delete']);
+
+    //stats
+    Route::get('/stats', [CoreController::class, 'stats']);
 });
