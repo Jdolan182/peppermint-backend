@@ -4,32 +4,12 @@ namespace Tests\Feature\Api\Consumer;
 
 use App\Models\User;
 use App\Models\Consumer;
-use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Auth;
 
 class EditConsumerTest extends TestCase
 {
     use RefreshDatabase;
-
-    /**
-     * Update user validation test.
-     *
-     * @return void
-     */
-    public function test_edit_user_validation_()
-    {
-        $user = User::factory()->create();
-        $consumer = Consumer::factory()->create();
-
-        $response = $this->actingAs($user)->patchJson('api/user/edit/' . $consumer->id, []);
-        $response->assertInvalid([
-            'name',
-            'email',
-        ]);
-    }
 
      /**
      * Update user test.

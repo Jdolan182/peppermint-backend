@@ -12,8 +12,6 @@ class Blog extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $guard = 'consumer';
-
     public function getRouteKeyName()
     {
         return 'slug';

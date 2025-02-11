@@ -3,11 +3,8 @@
 namespace Tests\Feature\Api\User;
 
 use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Auth;
 
 class EditUserTest extends TestCase
 {

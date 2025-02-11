@@ -4,11 +4,8 @@ namespace Tests\Feature\Api\Auth;
 
 use App\Models\User;
 use App\Models\Consumer;
-use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Auth;
 
 class AuthTest extends TestCase
 {

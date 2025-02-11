@@ -1,29 +1,34 @@
 <?php
 
-namespace Tests\Feature\Api\User;
+namespace Tests\Feature\Api\blog;
 
 use App\Models\User;
+use App\Models\Blog;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class DeleteUserTest extends TestCase
+class DeleteBlogTest extends TestCase
 {
     use RefreshDatabase;
+
      /**
-     * Delete user test.
+     * Delete blog test.
      *
      * @return void
      */
-    public function test_delete_user_()
+    public function test_delete_blog_()
     {
         $user = User::factory()->create();
+        $blog = Blog::factory()->create();
 
-        $response = $this->actingAs($user)->deleteJson('api/user/delete/' . $user->id);
+
+        $response = $this->actingAs($user)->deleteJson('api/blog/delete/' . $blog->slug);
+
         $response->assertOk();
         $response->assertJson(
             [
                 'status' => true,
-                'message' => 'User Deleted'
+                'message' => 'Blog Deleted'
             ]
         );
     }
