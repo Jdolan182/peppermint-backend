@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CoreController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\ConsumerController;
 
 //middleware
@@ -52,12 +51,6 @@ Route::middleware('auth:admin')->group(function () {
 
     //stats
     Route::get('/stats', [CoreController::class, 'stats']);
-
-    //images
-    Route::post('/image/upload', [ImageController::class, 'upload']);
-
-
-
 });
 
 
