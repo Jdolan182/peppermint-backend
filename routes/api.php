@@ -1,16 +1,18 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 //Controllers
-use App\Http\Controllers\TestController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\Api\CoreController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\ConsumerController;
+
+//middleware
+use App\Http\Middleware\CanAdminLogin;
+use App\Http\Middleware\CanFrontendLogin;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +26,8 @@ use App\Http\Controllers\Api\ConsumerController;
 */
 
 //Admin
-//Route::middleware('admin-login')->group(function () {
-    Route::post('/auth/login', [AuthController::class, 'loginUser']);
-//});
+    Route::post('/auth/login', [AuthController::class, 'loginUser'])->middleware(CanAdminLogin::class);
+
 
 Route::middleware('auth:admin')->group(function () {
 
@@ -82,11 +83,9 @@ if ( env('MODULE_BLOG_ENABLED')) {
 //Consumer
 if ( env('MODULE_CONSUMER_ENABLED')) {
 
-    Route::middleware('consumer-login')->group(function () {
-        Route::post('/consumer/login', [ConsumerController::class, 'loginUser']);
-        Route::post('/consumer/signup', [ConsumerController::class, 'signupUser']);
-    });
-
+    Route::post('/consumer/login', [ConsumerController::class, 'loginUser'])->middleware(CanFrontendLogin::class);
+    Route::post('/consumer/signup', [ConsumerController::class, 'signupUser'])->middleware(CanFrontendLogin::class);
+   
     Route::middleware('auth:consumer')->group(function () {
 
         //consumer
