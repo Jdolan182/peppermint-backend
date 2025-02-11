@@ -1,16 +1,15 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 //Controllers
-use App\Http\Controllers\TestController;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\Api\CoreController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\ConsumerController;
+use App\Http\Middleware\CanAdminLogin;
+use App\Http\Middleware\CanFrontendLogin;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +23,8 @@ use App\Http\Controllers\Api\ConsumerController;
 */
 
 //Admin
-//Route::middleware('admin-login')->group(function () {
-    Route::post('/auth/login', [AuthController::class, 'loginUser']);
-//});
+Route::post('/auth/login', [AuthController::class, 'loginUser'])->middleware(CanAdminLogin::class);
+
 
 Route::middleware('auth:admin')->group(function () {
 
@@ -50,16 +48,6 @@ Route::middleware('auth:admin')->group(function () {
         Route::delete('/consumer/delete/{consumer}', [ConsumerController::class, 'delete']);
     }
 
-    //blog
-    if ( env('MODULE_BLOG_ENABLED')) {
-        Route::get('/blog', [BlogController::class, 'index']);
-        Route::get('/blogCategories', [BlogController::class, 'categories']);
-        Route::post('/blog/create', [BlogController::class, 'create']);
-        Route::get('/blog/show/{blog}', [BlogController::class, 'show']);
-        Route::patch('/blog/edit/{blog}', [BlogController::class, 'edit']);
-        Route::delete('/blog/delete/{blog}', [BlogController::class, 'delete']);
-    }
-
     //stats
     Route::get('/stats', [CoreController::class, 'stats']);
 
@@ -73,22 +61,13 @@ Route::middleware('auth:admin')->group(function () {
 
 //Route::get('/test/test', [TestController::class, 'index']);
 
-//blog
-if ( env('MODULE_BLOG_ENABLED')) {
-    Route::get('/blogs', [BlogController::class, 'blogList']);
-    Route::get('/blogs/{blog}', [BlogController::class, 'show']);
-}
-
 //Consumer
 if ( env('MODULE_CONSUMER_ENABLED')) {
 
-    Route::middleware('consumer-login')->group(function () {
-        Route::post('/consumer/login', [ConsumerController::class, 'loginUser']);
-        Route::post('/consumer/signup', [ConsumerController::class, 'signupUser']);
-    });
+    Route::post('/consumer/login', [ConsumerController::class, 'loginUser'])->middleware(CanFrontendLogin::class);;;
+    Route::post('/consumer/signup', [ConsumerController::class, 'signupUser'])->middleware(CanFrontendLogin::class);;;
 
     Route::middleware('auth:consumer')->group(function () {
-
         //consumer
         Route::get('/consumer/getUser', [ConsumerController::class, 'auth']);
         Route::post('/consumer/logout', [ConsumerController::class, 'logoutUser']);

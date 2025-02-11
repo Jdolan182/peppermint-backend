@@ -13,11 +13,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         //
         $middleware->statefulApi();
-
-        $middleware->api(append: [
-            'consumer-login' => \App\Http\Middleware\CanFrontendLogin::class,
-            'admin-login' => \App\Http\Middleware\CanAdminLogin::class
-        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
