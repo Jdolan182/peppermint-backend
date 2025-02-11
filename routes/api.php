@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\CoreController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\ConsumerController;
+
+//middleware
 use App\Http\Middleware\CanAdminLogin;
 use App\Http\Middleware\CanFrontendLogin;
 
