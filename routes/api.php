@@ -2,17 +2,20 @@
 
 use Illuminate\Support\Facades\Route;
 
+//middleware
+use App\Http\Middleware\CanAdminLogin;
+use App\Http\Middleware\CanFrontendLogin;
+
 //Controllers
+use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\ThemeController;
+use App\Http\Controllers\Api\ConsumerController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\Api\CoreController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\ImageController;
-use App\Http\Controllers\Api\ConsumerController;
 
-//middleware
-use App\Http\Middleware\CanAdminLogin;
-use App\Http\Middleware\CanFrontendLogin;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -64,11 +67,13 @@ Route::middleware('auth:admin')->group(function () {
     //stats
     Route::get('/stats', [CoreController::class, 'stats']);
 
+    //theme
+    Route::get('/theme/getTheme', [ThemeController::class, 'getActiveTheme']);
+    Route::post('/theme/setTheme', [ThemeController::class, 'setActiveTheme']);
+    Route::get('/theme/getAllThemes', [ThemeController::class, 'getAllThemes']);
+
     //images
     Route::post('/image/upload', [ImageController::class, 'upload']);
-
-
-
 });
 
 
@@ -93,6 +98,5 @@ if ( env('MODULE_CONSUMER_ENABLED')) {
         Route::post('/consumer/logout', [ConsumerController::class, 'logoutUser']);
         Route::patch('/consumer/updateDetails/{consumer}', [ConsumerController::class, 'updateDetails']);
         Route::patch('/consumer/updatePassword/{consumer}', [ConsumerController::class, 'updatePassword']);
-
     });
 }
