@@ -28,8 +28,11 @@ use App\Http\Controllers\Api\UserController;
 |
 */
 
+//Theme 
+Route::get('/theme/getTheme', [ThemeController::class, 'getActiveTheme']);
+
 //Admin
-    Route::post('/auth/login', [AuthController::class, 'loginUser'])->middleware(CanAdminLogin::class);
+Route::post('/auth/login', [AuthController::class, 'loginUser'])->middleware(CanAdminLogin::class);
 
 
 Route::middleware('auth:admin')->group(function () {
@@ -68,7 +71,6 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/stats', [CoreController::class, 'stats']);
 
     //theme
-    Route::get('/theme/getTheme', [ThemeController::class, 'getActiveTheme']);
     Route::post('/theme/setTheme', [ThemeController::class, 'setActiveTheme']);
     Route::get('/theme/getAllThemes', [ThemeController::class, 'getAllThemes']);
 
