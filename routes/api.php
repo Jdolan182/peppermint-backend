@@ -7,13 +7,14 @@ use App\Http\Middleware\CanAdminLogin;
 use App\Http\Middleware\CanFrontendLogin;
 
 //Controllers
-use App\Http\Controllers\Api\ImageController;
-use App\Http\Controllers\Api\ThemeController;
-use App\Http\Controllers\Api\ConsumerController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\Api\CoreController;
+use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\ThemeController;
+use App\Http\Controllers\Api\ConsumerController;
 
 
 
@@ -85,6 +86,12 @@ Route::middleware('auth:admin')->group(function () {
 if ( env('MODULE_BLOG_ENABLED')) {
     Route::get('/blogs', [BlogController::class, 'blogList']);
     Route::get('/blogs/{blog}', [BlogController::class, 'show']);
+}
+
+
+//cms
+if ( env('MODULE_CMS_ENABLED')) {
+    Route::get('/pages/{page}', [PageController::class, 'getPageData']);
 }
 
 //Consumer
