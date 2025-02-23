@@ -23,7 +23,7 @@ class EditBlogTest extends TestCase
         $blog = Blog::factory()->create();
         $category = BlogCategory::factory()->create();
 
-        $response = $this->actingAs($user)->patchJson('api/blog/edit/' . $blog->slug, [
+        $response = $this->actingAs($user)->patchJson('api/blog/edit/' . $blog->id, [
             'title' => 'Blog Title',
             'subtitle' => 'This is a blog',
             'slug' => 'blog-title',

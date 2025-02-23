@@ -22,7 +22,7 @@ class DeleteBlogTest extends TestCase
         $blog = Blog::factory()->create();
 
 
-        $response = $this->actingAs($user)->deleteJson('api/blog/delete/' . $blog->slug);
+        $response = $this->actingAs($user)->deleteJson('api/blog/delete/' . $blog->id);
 
         $response->assertOk();
         $response->assertJson(

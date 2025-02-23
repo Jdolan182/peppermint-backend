@@ -25,7 +25,7 @@ class GetBlogTest extends TestCase
         $categoryResource = new BlogCategoryResource($blog->category);
         $userResource = new UserResource($blog->author);
 
-        $response = $this->actingAs($user)->getJson('api/blog/show/' . $blog->slug);
+        $response = $this->actingAs($user)->getJson('api/blog/show/' . $blog->id);
         $response->assertOk();
         $response->assertJson(
             [
