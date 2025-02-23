@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Blog;
 
-use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BlogEditRequest extends FormRequest
@@ -34,13 +34,14 @@ class BlogEditRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:blogs,id,'.$this->id
+                Rule::unique('blogs')->ignore($this->id)
+
             ],
             'title' => [
                 'required',
                 'string',
                 'max:255',
-                'unique:blogs,id,'.$this->id
+                Rule::unique('blogs')->ignore($this->id)
             ],
             'subtitle' => [
                 'nullable',

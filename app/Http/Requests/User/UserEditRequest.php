@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserEditRequest extends FormRequest
@@ -33,6 +34,8 @@ class UserEditRequest extends FormRequest
                 'required',
                 'email',
                 'max:255',
+                Rule::unique('consumers')->ignore($this->id)
+
             ],
             'password' => [
                 'nullable',

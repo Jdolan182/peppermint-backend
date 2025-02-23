@@ -77,6 +77,15 @@ Route::middleware('auth:admin')->group(function () {
 
     //images
     Route::post('/image/upload', [ImageController::class, 'upload']);
+
+    //cms
+    if ( env('MODULE_CMS_ENABLED')) {
+        Route::get('/pages/show/{page}', [PageController::class, 'getPageData']);
+        Route::delete('/pages/delete/{page}', [PageController::class, 'delete']);
+        Route::post('/pages/create', [PageController::class, 'create']);
+        Route::patch('/pages/edit/{page}', [PageController::class, 'edit']);
+
+    }
 });
 
 
@@ -85,13 +94,14 @@ Route::middleware('auth:admin')->group(function () {
 //blog
 if ( env('MODULE_BLOG_ENABLED')) {
     Route::get('/blogs', [BlogController::class, 'blogList']);
-    Route::get('/blogs/{blog}', [BlogController::class, 'show']);
+    Route::get('/blogs/{blog:slug}', [BlogController::class, 'show']);
 }
 
 
 //cms
 if ( env('MODULE_CMS_ENABLED')) {
-    Route::get('/pages/{page}', [PageController::class, 'getPageData']);
+    Route::get('/pages', [PageController::class, 'index']);
+    Route::get('/pages/{page:slug}', [PageController::class, 'getPageData']);
 }
 
 //Consumer

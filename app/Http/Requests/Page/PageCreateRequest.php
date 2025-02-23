@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Consumer;
+namespace App\Http\Requests\Page;
 
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ConsumerEditRequest extends FormRequest
+class PageCreateRequest extends FormRequest
 {
     /**
      * Prepare the data for validation.
@@ -14,8 +14,13 @@ class ConsumerEditRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-       
+        $this->merge([
+            'slug' => Str::slug($this->slug),
+            'show_footer' => $this->is_active ? 1 : 0,
+            'is_active' => $this->is_active ? 1 : 0
+        ]);
     }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -25,22 +30,24 @@ class ConsumerEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'title' => [
                 'required',
                 'string',
                 'max:255',
             ],
-            'email' => [
+            'slug' => [
                 'required',
-                'email',
+                'string',
                 'max:255',
-                Rule::unique('consumers')->ignore($this->id)
+                'unique:pages'
             ],
-            'password' => [
+            'show_footer' =>[ 
                 'nullable',
-                'string',
-                'confirmed',
-                'min:8'
+                'numeric',
+            ],
+            'is_active' =>[ 
+                'nullable',
+                'numeric',
             ]
         ];
     }

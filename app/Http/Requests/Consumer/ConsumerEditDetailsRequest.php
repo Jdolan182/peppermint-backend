@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Consumer;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ConsumerEditDetailsRequest extends FormRequest
@@ -33,6 +34,7 @@ class ConsumerEditDetailsRequest extends FormRequest
                 'required',
                 'email',
                 'max:255',
+                Rule::unique('consumers')->ignore($this->id)
             ],
         ];
     }

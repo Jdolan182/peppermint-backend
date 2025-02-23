@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Blog;
 
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -34,13 +33,13 @@ class BlogCreateRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:blogs,id,'.$this->id
+                'unique:blogs'
             ],
             'title' => [
                 'required',
                 'string',
                 'max:255',
-                'unique:blogs,id,'.$this->id
+                'unique:blogs'
             ],
             'subtitle' => [
                 'nullable',

@@ -10,11 +10,6 @@ class Blog extends Authenticatable
 {
     use HasFactory;
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-
     /**
      * The attributes that are mass assignable.
      *
