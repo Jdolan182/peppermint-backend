@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\ThemeController;
 use App\Http\Controllers\Api\ConsumerController;
+use App\Http\Controllers\Api\PageSectionController;
 
 
 
@@ -84,6 +85,10 @@ Route::middleware('auth:admin')->group(function () {
         Route::delete('/pages/delete/{page}', [PageController::class, 'delete']);
         Route::post('/pages/create', [PageController::class, 'create']);
         Route::patch('/pages/edit/{page}', [PageController::class, 'edit']);
+
+        //sections
+        Route::patch('/pages/editSection/{pageSection}', [PageSectionController::class, 'edit']);
+
 
     }
 });

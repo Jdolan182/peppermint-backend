@@ -3,63 +3,38 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\PageSection;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Resources\Page\PageSectionResource;
+use App\Http\Requests\Page\PageSectionEditRequest;
 
 class PageSectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+     /**
+     * Edit Page section.
+     *
+     * @param PageSectrionEditRequest $request
+     * @param PageSection $pageSection
+     * @return App\Http\Resources\Blog\BlogResource
      */
-    public function index()
+    public function edit(PageSectionEditRequest $request, PageSection $pageSection) 
     {
-        //
-    }
+        DB::beginTransaction();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        try {
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+            $pageSection->update(
+                $request->all()
+            );
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(PageSection $pageSection)
-    {
-        //
-    }
+            DB::commit();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(PageSection $pageSection)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, PageSection $pageSection)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(PageSection $pageSection)
-    {
-        //
+            return new PageSectionResource($pageSection->refresh());
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 400);
+        }
     }
 }

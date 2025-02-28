@@ -15,6 +15,7 @@ class PageSectionTemplateResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'template' => $this->template,
             'is_active' => $this->is_active,
         ];

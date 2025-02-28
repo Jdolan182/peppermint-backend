@@ -16,9 +16,11 @@ class PageSectionResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'order' => $this->order,
             'data' => $this->data,
-            'page_section_template' => new PageSectionTemplateResource($this->pageSectionTemplate)
+            'page_section_template' => new PageSectionTemplateResource($this->pageSectionTemplate),
+            'page_id' => $this->page_id
         ];
     }
 }
