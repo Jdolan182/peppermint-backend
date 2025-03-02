@@ -88,6 +88,7 @@ Route::middleware('auth:admin')->group(function () {
 
         //sections
         Route::patch('/pages/editSection/{pageSection}', [PageSectionController::class, 'edit']);
+        Route::post('/pages/updateSectionOrder', [PageSectionController::class, 'updateSectionOrder']);
 
 
     }

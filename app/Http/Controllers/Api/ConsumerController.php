@@ -71,7 +71,7 @@ class ConsumerController extends Controller
      * @param Consumer $consumer
      * @return App\Http\Resources\Consumer\ConsumerResource
      */
-    public function edit(ConsumerEditRequest $request, Consumer $consumer) :ConsumerResource
+    public function edit(ConsumerEditRequest $request, Consumer $consumer)
     {
         DB::beginTransaction();
 
@@ -110,7 +110,7 @@ class ConsumerController extends Controller
      * @param Consumer $consumer
      * @return App\Http\Resources\Consumer\ConsumerResource
      */
-    public function updateDetails(ConsumerEditDetailsRequest $request, Consumer $consumer) :ConsumerResource
+    public function updateDetails(ConsumerEditDetailsRequest $request, Consumer $consumer)
     {
         DB::beginTransaction();
 
@@ -140,7 +140,7 @@ class ConsumerController extends Controller
      * @param Consumer $consumer
      * @return App\Http\Resources\Consumer\ConsumerResource
      */
-    public function updatePassword(ConsumerEditPasswordRequest $request, Consumer $consumer) :ConsumerResource
+    public function updatePassword(ConsumerEditPasswordRequest $request, Consumer $consumer)
     {
         DB::beginTransaction();
 
@@ -169,7 +169,7 @@ class ConsumerController extends Controller
      * @param ConsumerLoginRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function loginUser(ConsumerLoginRequest $request) :JsonResponse
+    public function loginUser(ConsumerLoginRequest $request)
     {
         try {
             return Authenticate::authLogin('consumer', $request);
