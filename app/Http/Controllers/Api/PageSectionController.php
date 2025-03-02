@@ -12,11 +12,11 @@ use App\Http\Requests\Page\PageSectionEditRequest;
 
 class PageSectionController extends Controller
 {
-    
+
      /**
      * Edit Page section.
      *
-     * @param PageSectrionEditRequest $request
+     * @param PageSectionEditRequest $request
      * @param PageSection $pageSection
      * @return App\Http\Resources\Blog\BlogResource
      */
@@ -34,6 +34,36 @@ class PageSectionController extends Controller
 
             return new PageSectionResource($pageSection->refresh());
         } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 400);
+        }
+    }
+
+     /**
+     * Delete Section.
+     * 
+     * @param PageSection $pageSection
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(PageSection $pageSection) :JsonResponse
+    {
+        DB::beginTransaction();
+
+        try{
+         
+            $pageSection->delete();
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Section Deleted'
+            ], 200);
+        }
+        catch (\Throwable $th) {
             DB::rollback();
             return response()->json([
                 'status' => false,
@@ -78,6 +108,7 @@ class PageSectionController extends Controller
             ], 400);
         }
     }
+
     
 }
 

@@ -91,8 +91,10 @@ Route::middleware('auth:admin')->group(function () {
         //sections
         Route::patch('/pages/editSection/{pageSection}', [PageSectionController::class, 'edit']);
         Route::post('/pages/updateSectionOrder', [PageSectionController::class, 'updateSectionOrder']);
-        Route::get('/pages/getTemplates', [PageSectionTemplateController::class, 'getTemplates']);
+        Route::delete('/pages/deleteSection/{pageSection}', [PageSectionController::class, 'delete']);
 
+        //templates
+        Route::get('/pages/getTemplates', [PageSectionTemplateController::class, 'getTemplates']);
 
     }
 });
