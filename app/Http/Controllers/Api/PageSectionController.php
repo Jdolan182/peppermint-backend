@@ -12,6 +12,7 @@ use App\Http\Requests\Page\PageSectionEditRequest;
 
 class PageSectionController extends Controller
 {
+    
      /**
      * Edit Page section.
      *
@@ -62,7 +63,7 @@ class PageSectionController extends Controller
                 $section->order = $pageSection['order'];
                 $section->save();
             }
-            
+
             DB::commit();
 
             return response()->json([
