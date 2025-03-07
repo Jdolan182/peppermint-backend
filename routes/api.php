@@ -87,6 +87,7 @@ Route::middleware('auth:admin')->group(function () {
         Route::post('/pages/create', [PageController::class, 'create']);
         Route::post('/pages/addSection/{page}', [PageController::class, 'addSection']);
         Route::patch('/pages/edit/{page}', [PageController::class, 'edit']);
+        Route::get('/pages', [PageController::class, 'index']);
 
         //sections
         Route::patch('/pages/editSection/{pageSection}', [PageSectionController::class, 'edit']);
@@ -111,7 +112,7 @@ if ( env('MODULE_BLOG_ENABLED')) {
 
 //cms
 if ( env('MODULE_CMS_ENABLED')) {
-    Route::get('/pages', [PageController::class, 'index']);
+    Route::get('/getPages', [PageController::class, 'getFrontendPages']);
     Route::get('/pages/{page:slug}', [PageController::class, 'getPageData']);
 }
 

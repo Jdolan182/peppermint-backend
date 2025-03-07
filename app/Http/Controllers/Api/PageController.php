@@ -25,17 +25,46 @@ class PageController extends Controller
     {
         $search = $request->safe()->keyword ?? false;
         $limit = $request->limit ?? 30;
+        $is_active = $request->is_active ?? true;
+        $exclude_id = $request->exclude_id ?? false;
 
         $query = Page::query();
 
+        if ($is_active) {
+            $query->where(function ($q) {
+                $q->where('is_active', '=', "1");
+            });
+        }
+
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'LIKE', "%{$search}%")
-                    ->orWhere('email', 'LIKE', "%{$search}%");
+                $q->where('title','LIKE', "%{$search}%");
+            });
+        }
+
+        if ($exclude_id) {
+            $query->where(function ($q) use ($exclude_id) {
+                $q->where('id','!=', $exclude_id);
             });
         }
 
         return PageResource::collection($query->paginate($limit)->withQueryString());
+    }
+
+     /**
+     * List Pages for frontend
+     *
+     * @return App\Http\Resources\Page\PageResource
+     */
+    public function getPages() :AnonymousResourceCollection
+    {
+        $query = Page::query();
+
+        $query->where(function ($q) {
+            $q->where('is_active', '=', "1");
+        });
+        
+        return PageResource::collection($query->withQueryString());
     }
 
     /**
