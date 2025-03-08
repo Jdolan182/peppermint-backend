@@ -59,12 +59,20 @@ class PageController extends Controller
     public function getPages() :AnonymousResourceCollection
     {
         $query = Page::query();
+        $exclude_home = $request->exclude_home ?? true;
+
+
+        if ($exclude_home) {
+            $query->where(function ($q) {
+                $q->where('id','!=', 1);
+            });
+        }
 
         $query->where(function ($q) {
             $q->where('is_active', '=', "1");
         });
         
-        return PageResource::collection($query->withQueryString());
+        return PageResource::collection($query->paginate(30)->withQueryString());
     }
 
     /**

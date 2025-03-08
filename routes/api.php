@@ -112,7 +112,7 @@ if ( env('MODULE_BLOG_ENABLED')) {
 
 //cms
 if ( env('MODULE_CMS_ENABLED')) {
-    Route::get('/getPages', [PageController::class, 'getFrontendPages']);
+    Route::get('/pages/getPages', [PageController::class, 'getPages']);
     Route::get('/pages/{page:slug}', [PageController::class, 'getPageData']);
 }
 
